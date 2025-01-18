@@ -6,14 +6,12 @@ import {
   TextInput,
   useThemeMode,
 } from "flowbite-react";
-import { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import UserLogin from "./template/user-login";
-import UserProfile from "./template/user-profile";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
+import Image from "next/image";
 
 export default function Headers() {
   const { mode } = useThemeMode();
@@ -22,7 +20,7 @@ export default function Headers() {
   return (
     <Navbar fluid rounded>
       <Navbar.Brand href="/">
-        <img
+        <Image
           src="/next.svg"
           className="mr-3 h-6 sm:h-9"
           alt="Flowbite React Logo"
