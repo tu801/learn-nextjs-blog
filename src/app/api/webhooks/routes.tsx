@@ -1,8 +1,9 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
 
   if (!SIGNING_SECRET) {
@@ -42,8 +43,8 @@ export async function POST(req: Request) {
     }) as WebhookEvent;
   } catch (err) {
     console.error("Error: Could not verify webhook:", err);
-    return new Response("Error: Verification error", {
-      status: 400,
+    return NextResponse.json("Error: Verification error", {
+      status: 500,
     });
   }
 
@@ -58,5 +59,5 @@ export async function POST(req: Request) {
     console.log("userId:", evt.data.id);
   }
 
-  return new Response("Webhook received", { status: 200 });
+  return NextResponse.json("Webhook received", { status: 200 });
 }
