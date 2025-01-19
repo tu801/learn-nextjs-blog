@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
         }
         console.info("New user created ");
       } catch (error) {
-        console.log("Error create or update user with ID:", userData.id);
+        console.log("Error create or update user ", error);
         return NextResponse.json(
           { error: "Webhook verification failed" },
           { status: 400 }
@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
         await deleteUser(id);
         console.info(`User #${id} deleted!`);
       } catch (error) {
-        console.log("Error delete user with ID:", id);
+        console.log("Error delete user", error);
         return NextResponse.json(
           { error: "Webhook verification failed" },
           { status: 400 }
