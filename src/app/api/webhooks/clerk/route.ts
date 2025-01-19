@@ -1,6 +1,8 @@
 import { Webhook } from "svix";
-import { WebhookEvent } from "@clerk/nextjs/server";
+import { clerkClient, WebhookEvent } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
+import { ClerkUserData } from "@/types/clerk";
+import { createOrUpdateUser, deleteUser } from "@/lib/actions/user";
 
 export async function POST(req: NextRequest) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
@@ -51,13 +53,54 @@ export async function POST(req: NextRequest) {
     const eventType = evt.type;
 
     // Kiểm tra loại event và xử lý
-    if (eventType === "user.created") {
-      const userId = evt.data.id;
-      console.log("New user created with ID:", userId);
+    if (eventType === "user.created" || eventType === "user.updated") {
+      const userData: ClerkUserData = {
+        id: evt.data.id,
+        first_name: evt.data.first_name || "",
+        last_name: evt.data.last_name || "",
+        email_address: evt.data.email_addresses[0].email_address,
+        image_url: evt.data.image_url,
+        username: evt.data.username || "",
+      };
+
+      try {
+        const client = await clerkClient();
+        const newUser = await createOrUpdateUser(userData);
+
+        if (newUser && eventType === "user.created") {
+          try {
+            await client.users.updateUserMetadata(userData.id, {
+              publicMetadata: {
+                userMongoId: newUser._id,
+                isAdmin: newUser.isAdmin,
+              },
+            });
+          } catch (error) {
+            console.error("Set Clerk user meta error!", error);
+          }
+        }
+        console.info("New user created ");
+      } catch (error) {
+        console.log("Error create or update user with ID:", userData.id);
+        return NextResponse.json(
+          { error: "Webhook verification failed" },
+          { status: 400 }
+        );
+      }
     }
     if (eventType === "user.deleted") {
-      const userId = evt.data.id;
-      console.log("User deleted with ID:", userId);
+      const { id } = evt?.data;
+      if (id === undefined) return;
+      try {
+        await deleteUser(id);
+        console.info(`User #${id} deleted!`);
+      } catch (error) {
+        console.log("Error delete user with ID:", id);
+        return NextResponse.json(
+          { error: "Webhook verification failed" },
+          { status: 400 }
+        );
+      }
     }
 
     return NextResponse.json({ success: true });
