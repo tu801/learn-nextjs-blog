@@ -55,6 +55,10 @@ export async function POST(req: NextRequest) {
       const userId = evt.data.id;
       console.log("New user created with ID:", userId);
     }
+    if (eventType === "user.deleted") {
+      const userId = evt.data.id;
+      console.log("User deleted with ID:", userId);
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {
