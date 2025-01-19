@@ -21,7 +21,9 @@ export default function Headers() {
     <Navbar fluid rounded>
       <Navbar.Brand href="/">
         <Image
-          src="/next.svg"
+          src="/logo.png"
+          width={200}
+          height={50}
           className="mr-3 h-6 sm:h-9"
           alt="Flowbite React Logo"
         />
