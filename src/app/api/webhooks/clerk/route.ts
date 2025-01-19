@@ -11,10 +11,6 @@ export async function POST(req: NextRequest) {
     );
   }
   try {
-    // Lấy payload và headers từ request
-    const payload = await req.text();
-    const headers = Object.fromEntries(req.headers);
-
     // Tạo đối tượng Webhook từ svix
     const wh = new Webhook(SIGNING_SECRET);
 
@@ -30,25 +26,28 @@ export async function POST(req: NextRequest) {
         status: 400,
       });
     }
+
+    // Get body
+    const payload = await req.json();
+    const body = JSON.stringify(payload);
+
     let evt: WebhookEvent;
 
-    // Xác minh payload
-    const jsonPayload = wh.verify(payload, headers);
+    // Verify payload with headers
     try {
-      evt = wh.verify(payload, {
+      evt = wh.verify(body, {
         "svix-id": svix_id,
         "svix-timestamp": svix_timestamp,
         "svix-signature": svix_signature,
       }) as WebhookEvent;
     } catch (err) {
       console.error("Error: Could not verify webhook:", err);
-      return new Response("Error: Verification error", {
+      return NextResponse.json("Error: Verification error", {
         status: 400,
       });
     }
 
     // Do something with payload
-    const { id } = evt.data;
     const eventType = evt.type;
 
     // Kiểm tra loại event và xử lý
