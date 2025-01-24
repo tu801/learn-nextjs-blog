@@ -22,8 +22,8 @@ export const GET = async (req: NextRequest) => {
       });
     }
 
-    const startIndex = parseInt(data.startIndex) || 0;
-    const limit = parseInt(data.limit) || 9;
+    const startIndex = parseInt(data.startIndex ?? "0") || 0;
+    const limit = parseInt(data.limit ?? "9") || 9;
     const sortDirection = data.order === "asc" ? 1 : -1;
     const posts = await Post.find({
       ...(data.userId && { userId: data.userId }),

@@ -9,7 +9,7 @@ import React from "react";
 export default async function PostDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
   const awaitedParams = await params;
   const { slug } = awaitedParams;

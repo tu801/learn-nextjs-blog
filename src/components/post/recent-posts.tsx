@@ -10,11 +10,13 @@ export default async function RecentPosts(props: IProps) {
   const { limit } = props;
   let posts: PostItem[] = [];
   try {
-    const result = await fetch(config.api.getPost, {
-      method: "POST",
-      body: JSON.stringify({ limit: limit, order: "desc" }),
-      cache: "no-store",
-    });
+    const result = await fetch(
+      `${config.api.getPost}?limit=${limit}&order=desc`,
+      {
+        method: "GET",
+        cache: "no-store",
+      }
+    );
     const data = await result.json();
     posts = data.posts;
   } catch (error) {
