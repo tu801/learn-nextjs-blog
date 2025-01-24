@@ -1,6 +1,7 @@
 import React from "react";
 import PostCard from "./post-card";
 import { PostItem } from "@/types/post";
+import config from "@/config/settings";
 
 interface IProps {
   limit: number;
@@ -9,7 +10,7 @@ export default async function RecentPosts(props: IProps) {
   const { limit } = props;
   let posts: PostItem[] = [];
   try {
-    const result = await fetch(process.env.URL + "/api/post/get", {
+    const result = await fetch(config.api.getPost, {
       method: "POST",
       body: JSON.stringify({ limit: limit, order: "desc" }),
       cache: "no-store",
