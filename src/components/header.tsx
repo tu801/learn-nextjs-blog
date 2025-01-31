@@ -17,7 +17,7 @@ import AdminMenu from "./template/admin-menu";
 export default function Headers() {
   const { mode } = useThemeMode();
   const path = usePathname();
-  const { isSignedIn, user, isLoaded } = useUser();
+  const { isSignedIn, user } = useUser();
 
   return (
     <Navbar fluid rounded>

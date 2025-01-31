@@ -1,26 +1,9 @@
 import CallToAction from "@/components/call-to-action";
 import RecentPosts from "@/components/post/recent-posts";
-import config from "@/config/settings";
 import Link from "next/link";
 import React from "react";
 
 export default async function HomePage() {
-  let posts = null;
-  try {
-    console.log(
-      ">>>Fetching posts URL: ",
-      `${config.api.getPost}?limit=9&order=desc`
-    );
-    const result = await fetch(`${config.api.getPost}?limit=9&order=desc`, {
-      method: "GET",
-      cache: "no-store",
-    });
-    const data = await result.json();
-    posts = data.posts;
-  } catch (error) {
-    console.log("Error getting post:", error);
-  }
-
   return (
     <div className="flex flex-col justify-center items-center">
       <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto ">
