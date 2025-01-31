@@ -3,9 +3,9 @@ import RecentPosts from "@/components/post/recent-posts";
 import config from "@/config/settings";
 import { PostItem } from "@/types/post";
 import { Button } from "flowbite-react";
-import { url } from "inspector";
 import { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import React from "react";
 
 // SEO Metadata
@@ -105,10 +105,13 @@ export default async function PostDetailPage({
             {post && post.category}
           </Button>
         </Link>
-        <img
-          src={post && post.image}
-          alt={post && post.title}
+        <Image
+          layout="intrinsic"
           className="mt-10 p-3 max-h-[600px] w-full object-cover"
+          alt={post && post.title}
+          src={post && post.image}
+          width={800} // Set the width of the image
+          height={600} // Set the height of the image
         />
         <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
           <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>

@@ -2,7 +2,6 @@ import { Metadata } from "next";
 
 import configs from "./settings";
 
-// eslint-disable-next-line turbo/no-undeclared-env-vars
 export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || configs.domain.production;
 

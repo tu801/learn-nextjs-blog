@@ -1,4 +1,5 @@
 import { PostItem } from "@/types/post";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -11,7 +12,9 @@ export default function PostCard(props: IProps) {
   return (
     <div className="group relative w-full border border-teal-500 hover:border-2 h-[400px] overflow-hidden rounded-lg sm:w-[430px] transition-all">
       <Link href={`/post/${post.slug}`}>
-        <img
+        <Image
+          width={430}
+          height={260}
           src={post.image}
           alt="post cover"
           className="h-[260px] w-full  object-cover group-hover:h-[200px] transition-all duration-300 z-20"

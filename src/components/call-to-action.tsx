@@ -1,4 +1,6 @@
+import config from "@/config/settings";
 import { Button } from "flowbite-react";
+import Image from "next/image";
 import React from "react";
 
 export default function CallToAction() {
@@ -23,7 +25,12 @@ export default function CallToAction() {
         </Button>
       </div>
       <div className="p-7 flex-1">
-        <img src="https://bairesdev.mo.cloudinary.net/blog/2023/08/What-Is-JavaScript-Used-For.jpg" />
+        <Image
+          width={400}
+          height={300}
+          alt={config.title}
+          src="https://bairesdev.mo.cloudinary.net/blog/2023/08/What-Is-JavaScript-Used-For.jpg"
+        />
       </div>
     </div>
   );
