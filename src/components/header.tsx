@@ -9,13 +9,15 @@ import {
 import { AiOutlineSearch } from "react-icons/ai";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import Image from "next/image";
+import AdminMenu from "./template/admin-menu";
 
 export default function Headers() {
   const { mode } = useThemeMode();
   const path = usePathname();
+  const { isSignedIn, user, isLoaded } = useUser();
 
   return (
     <Navbar fluid rounded>
@@ -62,11 +64,7 @@ export default function Headers() {
             About
           </Navbar.Link>
         </Link>
-        <Link href="/project">
-          <Navbar.Link active={path === "/project"} as={"div"}>
-            Project
-          </Navbar.Link>
-        </Link>
+        {isSignedIn && user?.publicMetadata?.isAdmin ? <AdminMenu /> : ""}
       </Navbar.Collapse>
     </Navbar>
   );

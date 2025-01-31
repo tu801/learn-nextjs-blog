@@ -19,6 +19,8 @@ export default async function RecentPosts(props: IProps) {
     );
     const data = await result.json();
     posts = data.posts;
+
+    console.log(">>>Recent posts: ", posts);
   } catch (error) {
     console.log("Error getting post:", error);
   }

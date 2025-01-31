@@ -16,11 +16,11 @@ export const GET = async (req: NextRequest) => {
       searchTerm: req.nextUrl.searchParams.get("searchTerm"),
     };
 
-    if (!data.slug || data.slug === "") {
-      return NextResponse.json("Invalid Request", {
-        status: 403,
-      });
-    }
+    // if (!data.slug || data.slug === "") {
+    //   return NextResponse.json("Invalid Request", {
+    //     status: 403,
+    //   });
+    // }
 
     const startIndex = parseInt(data.startIndex ?? "0") || 0;
     const limit = parseInt(data.limit ?? "9") || 9;
