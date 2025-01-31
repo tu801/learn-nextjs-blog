@@ -3,8 +3,53 @@ import RecentPosts from "@/components/post/recent-posts";
 import config from "@/config/settings";
 import { PostItem } from "@/types/post";
 import { Button } from "flowbite-react";
+import { url } from "inspector";
+import { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
+
+// SEO Metadata
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const awaitedParams = await params;
+  const { slug } = awaitedParams;
+  const result = await fetch(`${config.api.getPost}?slug=${slug}`, {
+    method: "GET",
+    cache: "force-cache",
+  });
+
+  if (!result.ok) {
+    return {
+      title: "Post Not Found",
+      description: "The requested post does not exist.",
+    };
+  }
+  const resData = await result.json();
+  const post = resData.posts[0];
+
+  return {
+    title: `${post.title} - Next Blog`,
+    description: post.meta_desc || post.description,
+    keywords: post.key_word || config.keywords,
+    openGraph: {
+      title: `${post.title} - Next Blog`,
+      description: post.meta_desc || post.description,
+      type: "article",
+      url: `${config.domain.production}/post/${post.slug}`,
+      images: [{ url: post.image, alt: post.title }],
+      siteName: config.siteName,
+    },
+    twitter: {
+      card: post.title,
+      site: config.siteName,
+      creator: "@creator",
+      images: post.image,
+    },
+  };
+}
 
 export default async function PostDetailPage({
   params,
