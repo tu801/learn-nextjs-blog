@@ -15,9 +15,11 @@ export default function PostCard(props: IProps) {
         <Image
           width={430}
           height={260}
+          style={{ width: "auto", height: "auto" }}
           src={post.image}
-          alt="post cover"
+          alt={post.title}
           className="h-[260px] w-full  object-cover group-hover:h-[200px] transition-all duration-300 z-20"
+          priority={true}
         />
       </Link>
       <div className="p-3 flex flex-col gap-2">

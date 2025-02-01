@@ -6,6 +6,7 @@ import ThemeComponent from "@/components/theme-component";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ErrorProvider } from "@/contexts/ErrorContext";
 import { defaultMetadata } from "@/config/metadata";
+import FooterCom from "@/components/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default function RootLayout({
             <ThemeComponent>
               <Headers></Headers>
               {children}
+              <FooterCom></FooterCom>
             </ThemeComponent>
           </ErrorProvider>
         </body>

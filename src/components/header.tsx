@@ -15,6 +15,7 @@ import Image from "next/image";
 import AdminMenu from "./template/admin-menu";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import config from "@/config/settings";
 
 export default function Headers() {
   const { mode } = useThemeMode();
@@ -48,7 +49,8 @@ export default function Headers() {
           width={200}
           height={50}
           className="mr-3 h-6 sm:h-9"
-          alt="Flowbite React Logo"
+          alt={config.title}
+          priority={true}
         />
       </Navbar.Brand>
       <form onSubmit={handleSubmit()}>
